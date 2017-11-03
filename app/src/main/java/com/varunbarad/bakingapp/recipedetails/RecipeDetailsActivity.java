@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.ActivityRecipeDetailsBinding;
 import com.varunbarad.bakingapp.model.Recipe;
+import com.varunbarad.bakingapp.recipedetails.recipesteps.StepsListFragment;
 import com.varunbarad.bakingapp.util.eventlistener.OnFragmentInteractionListener;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements OnFragmentInteractionListener {

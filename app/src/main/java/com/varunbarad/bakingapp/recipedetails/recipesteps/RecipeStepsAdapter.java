@@ -1,4 +1,4 @@
-package com.varunbarad.bakingapp.recipedetails;
+package com.varunbarad.bakingapp.recipedetails.recipesteps;
 
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;

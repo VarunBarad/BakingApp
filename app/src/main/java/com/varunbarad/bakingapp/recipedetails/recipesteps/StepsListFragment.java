@@ -1,4 +1,4 @@
-package com.varunbarad.bakingapp.recipedetails;
+package com.varunbarad.bakingapp.recipedetails.recipesteps;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
