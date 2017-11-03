@@ -3,5 +3,10 @@
 
     <string name="message_no_recipes">Looks like there aren\'t any recipes available currently.</string>
 
+    <string name="label_ingredients">Ingredients</string>
+
     <string name="serving_size">Serves: %d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

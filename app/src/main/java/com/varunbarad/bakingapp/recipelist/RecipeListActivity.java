@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.ActivityRecipeListBinding;
 import com.varunbarad.bakingapp.model.Recipe;
+import com.varunbarad.bakingapp.recipedetails.RecipeDetailsActivity;
 import com.varunbarad.bakingapp.util.RecipeApiHelper;
 import com.varunbarad.bakingapp.util.eventlistener.ListItemClickListener;
 
@@ -69,8 +69,8 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   @Override
   protected void onStart() {
     super.onStart();
-    this.dataBinding.contentActivityRecipeList.recyclerViewRecipes.setHasFixedSize(true);
-    this.dataBinding.contentActivityRecipeList.recyclerViewRecipes.setLayoutManager(new GridLayoutManager(this, this.getResources().getInteger(R.integer.column_count_recipe_list), LinearLayoutManager.VERTICAL, false));
+    this.dataBinding.contentActivityRecipeList.recyclerViewRecipeListRecipes.setHasFixedSize(true);
+    this.dataBinding.contentActivityRecipeList.recyclerViewRecipeListRecipes.setLayoutManager(new GridLayoutManager(this, this.getResources().getInteger(R.integer.column_count_recipe_list), LinearLayoutManager.VERTICAL, false));
   }
   
   private void showRecipes(ArrayList<Recipe> recipes) {
@@ -78,11 +78,11 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
       this.showNoRecipes();
     } else {
       this.recipeListAdapter = new RecipeListAdapter(recipes, this);
-      this.dataBinding.contentActivityRecipeList.recyclerViewRecipes.setAdapter(this.recipeListAdapter);
+      this.dataBinding.contentActivityRecipeList.recyclerViewRecipeListRecipes.setAdapter(this.recipeListAdapter);
       
       this.dataBinding.contentActivityRecipeList.placeholderProgress
           .setVisibility(View.GONE);
-      this.dataBinding.contentActivityRecipeList.recyclerViewRecipes
+      this.dataBinding.contentActivityRecipeList.recyclerViewRecipeListRecipes
           .setVisibility(View.VISIBLE);
       this.dataBinding.contentActivityRecipeList.placeHolderError
           .setVisibility(View.GONE);
@@ -94,7 +94,7 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   private void showNetworkError() {
     this.dataBinding.contentActivityRecipeList.placeholderProgress
         .setVisibility(View.GONE);
-    this.dataBinding.contentActivityRecipeList.recyclerViewRecipes
+    this.dataBinding.contentActivityRecipeList.recyclerViewRecipeListRecipes
         .setVisibility(View.GONE);
     this.dataBinding.contentActivityRecipeList.placeHolderError
         .setVisibility(View.VISIBLE);
@@ -105,7 +105,7 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   private void showNoRecipes() {
     this.dataBinding.contentActivityRecipeList.placeholderProgress
         .setVisibility(View.GONE);
-    this.dataBinding.contentActivityRecipeList.recyclerViewRecipes
+    this.dataBinding.contentActivityRecipeList.recyclerViewRecipeListRecipes
         .setVisibility(View.GONE);
     this.dataBinding.contentActivityRecipeList.placeHolderError
         .setVisibility(View.GONE);
@@ -115,6 +115,7 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   
   @Override
   public void onItemClick(int position) {
-    Toast.makeText(this, this.recipeListAdapter.getRecipes().get(position).getName(), Toast.LENGTH_SHORT).show();
+    Recipe recipe = this.recipeListAdapter.getRecipes().get(position);
+    RecipeDetailsActivity.start(this, recipe);
   }
 }
