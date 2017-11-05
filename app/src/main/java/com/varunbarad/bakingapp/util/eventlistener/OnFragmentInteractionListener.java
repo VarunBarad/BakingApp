@@ -6,5 +6,6 @@ package com.varunbarad.bakingapp.util.eventlistener;
  * Project: BakingApp
  */
 public interface OnFragmentInteractionListener {
+  String TAG_LAUNCH_INGREDIENTS = "launch_ingredients";
   void onFragmentInteraction(String tag, String data);
 }

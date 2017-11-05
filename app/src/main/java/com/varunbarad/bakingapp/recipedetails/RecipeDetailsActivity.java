@@ -12,7 +12,9 @@ import com.google.gson.Gson;
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.ActivityRecipeDetailsBinding;
 import com.varunbarad.bakingapp.model.Recipe;
+import com.varunbarad.bakingapp.recipedetails.recipeingredients.IngredientsListFragment;
 import com.varunbarad.bakingapp.recipedetails.recipesteps.StepsListFragment;
+import com.varunbarad.bakingapp.util.Helper;
 import com.varunbarad.bakingapp.util.eventlistener.OnFragmentInteractionListener;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements OnFragmentInteractionListener {
@@ -63,6 +65,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
   @Override
   public void onFragmentInteraction(String tag, String data) {
     //ToDo: Handle events
+    if (OnFragmentInteractionListener.TAG_LAUNCH_INGREDIENTS.equals(tag)) {
+      this.showIngredients(this.recipe);
+    }
   }
   
   @Override
@@ -72,6 +77,25 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
       return true;
     } else {
       return super.onOptionsItemSelected(item);
+    }
+  }
+  
+  private void showIngredients(Recipe recipe) {
+    IngredientsListFragment fragment = IngredientsListFragment.newInstance(recipe);
+  
+    if (Helper.isDualPane(this)) {
+      this
+          .getSupportFragmentManager()
+          .beginTransaction()
+          .replace(R.id.container_recipeDetails_master, fragment)
+          .commit();
+    } else {
+      this
+          .getSupportFragmentManager()
+          .beginTransaction()
+          .replace(R.id.container_recipeDetails_master, fragment)
+          .addToBackStack(null)
+          .commit();
     }
   }
 }

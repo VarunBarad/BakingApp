@@ -6,25 +6,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.model.Recipe;
+import com.varunbarad.bakingapp.util.eventlistener.ListItemClickListener;
 
 /**
  * Creator: Varun Barad
  * Date: 03-11-2017
  * Project: BakingApp
  */
-public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.ViewHolder> {
-  private static final int VIEW_TYPE_INGREDIENT = 1;
-  private static final int VIEW_TYPE_STEP = 2;
+public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.ViewHolder> implements ListItemClickListener {
+  public static final int VIEW_TYPE_INGREDIENT = 1;
+  public static final int VIEW_TYPE_STEP = 2;
+  
+  private ListItemClickListener itemClickListener;
   
   private Recipe recipe;
   
-  public RecipeStepsAdapter(Recipe recipe) {
+  public RecipeStepsAdapter(Recipe recipe, ListItemClickListener itemClickListener) {
     this.recipe = recipe;
+    this.itemClickListener = itemClickListener;
   }
   
   @Override
@@ -86,6 +89,11 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     }
   }
   
+  @Override
+  public void onItemClick(int position) {
+    this.itemClickListener.onItemClick(position);
+  }
+  
   public class ViewHolder extends RecyclerView.ViewHolder {
     private AppCompatTextView textViewIndex;
     private AppCompatTextView textViewName;
@@ -98,8 +106,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         itemView.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            //ToDo: Launch ingredients fragment
-            Toast.makeText(v.getContext(), "Launch ingredients", Toast.LENGTH_SHORT).show();
+            RecipeStepsAdapter.this.onItemClick(getAdapterPosition());
           }
         });
       } else if (viewType == VIEW_TYPE_STEP) {
@@ -110,8 +117,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         itemView.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            //ToDo: Open step details fragment
-            Toast.makeText(v.getContext(), "Launch step details", Toast.LENGTH_SHORT).show();
+            RecipeStepsAdapter.this.onItemClick(getAdapterPosition());
           }
         });
       }
