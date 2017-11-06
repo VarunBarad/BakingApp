@@ -47,7 +47,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
     
     this.setSupportActionBar(this.dataBinding.toolbar);
     if (this.getSupportActionBar() != null) {
-      this.getSupportActionBar().setTitle(R.string.app_name);
+      this.getSupportActionBar().setTitle(this.recipe.getName());
       this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     
