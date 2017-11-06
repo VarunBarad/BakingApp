@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,11 +69,10 @@ public class StepsListFragment extends Fragment implements ListItemClickListener
     this.dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_details_steps_list, container, false);
     
     this.dataBinding.recyclerViewRecipeDetailsStepsListSteps.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
-    
-    if (savedInstanceState == null) {
-      this.stepsAdapter = new RecipeStepsAdapter(this.recipe, this);
-      this.dataBinding.recyclerViewRecipeDetailsStepsListSteps.setAdapter(this.stepsAdapter);
-    }
+  
+    this.stepsAdapter = new RecipeStepsAdapter(this.recipe, this);
+    this.dataBinding.recyclerViewRecipeDetailsStepsListSteps.setAdapter(this.stepsAdapter);
+    this.dataBinding.recyclerViewRecipeDetailsStepsListSteps.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
     
     return this.dataBinding.getRoot();
   }

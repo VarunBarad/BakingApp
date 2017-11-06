@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -70,11 +71,10 @@ public class IngredientsListFragment extends Fragment {
     
     int numberOfColumns = this.getContext().getResources().getInteger(R.integer.column_count_ingredients_list);
     this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setLayoutManager(new GridLayoutManager(this.getContext(), numberOfColumns, LinearLayoutManager.VERTICAL, false));
-    
-    if (savedInstanceState == null) {
-      this.ingredientsAdapter = new RecipeIngredientsAdapter(this.recipe);
-      this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setAdapter(this.ingredientsAdapter);
-    }
+  
+    this.ingredientsAdapter = new RecipeIngredientsAdapter(this.recipe);
+    this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setAdapter(this.ingredientsAdapter);
+    this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.addItemDecoration(new DividerItemDecoration(this.getContext(), GridLayoutManager.HORIZONTAL));
     
     return this.dataBinding.getRoot();
   }
