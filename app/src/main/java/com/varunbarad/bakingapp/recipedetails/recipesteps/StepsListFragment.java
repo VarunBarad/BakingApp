@@ -102,7 +102,11 @@ public class StepsListFragment extends Fragment implements ListItemClickListener
           this.recipe.toString()
       );
     } else if (this.stepsAdapter.getItemViewType(position) == RecipeStepsAdapter.VIEW_TYPE_STEP) {
-      //ToDo: Launch step details fragment
+      this.fragmentInteractionListener
+          .onFragmentInteraction(
+              OnFragmentInteractionListener.TAG_LAUNCH_STEP,
+              String.valueOf(position - 1)
+          );
     }
   }
 }

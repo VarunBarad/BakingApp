@@ -14,6 +14,7 @@ import com.varunbarad.bakingapp.databinding.ActivityRecipeDetailsBinding;
 import com.varunbarad.bakingapp.model.Recipe;
 import com.varunbarad.bakingapp.recipedetails.recipeingredients.IngredientsListFragment;
 import com.varunbarad.bakingapp.recipedetails.recipesteps.StepsListFragment;
+import com.varunbarad.bakingapp.recipedetails.stepdetails.StepDetailsFragment;
 import com.varunbarad.bakingapp.util.Helper;
 import com.varunbarad.bakingapp.util.eventlistener.OnFragmentInteractionListener;
 
@@ -64,9 +65,14 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
   
   @Override
   public void onFragmentInteraction(String tag, String data) {
-    //ToDo: Handle events
     if (OnFragmentInteractionListener.TAG_LAUNCH_INGREDIENTS.equals(tag)) {
       this.showIngredients(this.recipe);
+    } else if (OnFragmentInteractionListener.TAG_LAUNCH_STEP.equals(tag)) {
+      int stepNumber = Integer.parseInt(data);
+      this.showStep(this.recipe, stepNumber);
+    } else if (OnFragmentInteractionListener.TAG_LAUNCH_STEP_FROM_STEP.equals(tag)) {
+      int stepNumber = Integer.parseInt(data);
+      this.showStep(this.recipe, stepNumber, false);
     }
   }
   
@@ -82,14 +88,43 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
   
   private void showIngredients(Recipe recipe) {
     IngredientsListFragment fragment = IngredientsListFragment.newInstance(recipe);
-  
+    
     if (Helper.isDualPane(this)) {
       this
           .getSupportFragmentManager()
           .beginTransaction()
-          .replace(R.id.container_recipeDetails_master, fragment)
+          .replace(R.id.container_recipeDetails_master, fragment) //ToDo: Change to detail container
           .commit();
     } else {
+      this
+          .getSupportFragmentManager()
+          .beginTransaction()
+          .replace(R.id.container_recipeDetails_master, fragment)
+          .addToBackStack(null)
+          .commit();
+    }
+  }
+  
+  private void showStep(Recipe recipe, int stepNumber) {
+    this.showStep(recipe, stepNumber, true);
+  }
+  
+  private void showStep(Recipe recipe, int stepNumber, boolean addToBackStack) {
+    StepDetailsFragment fragment = StepDetailsFragment.newInstance(recipe, stepNumber);
+    
+    if (Helper.isDualPane(this)) {
+      this
+          .getSupportFragmentManager()
+          .beginTransaction()
+          .replace(R.id.container_recipeDetails_master, fragment) //ToDo: Change to detail container
+          .commit();
+    } else {
+      if (!addToBackStack) {
+        this
+            .getSupportFragmentManager()
+            .popBackStack();
+      }
+      
       this
           .getSupportFragmentManager()
           .beginTransaction()

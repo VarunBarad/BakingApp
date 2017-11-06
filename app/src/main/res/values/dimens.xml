@@ -2,4 +2,6 @@
 <resources>
     <dimen name="textSize_listItemRecipeList_title">18sp</dimen>
     <dimen name="textSize_listItemRecipeList_serving">12sp</dimen>
+
+    <dimen name="textSize_stepDetails_description">18sp</dimen>
 </resources>

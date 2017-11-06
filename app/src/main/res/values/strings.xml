@@ -4,6 +4,8 @@
     <string name="message_no_recipes">Looks like there aren\'t any recipes available currently.</string>
 
     <string name="label_ingredients">Ingredients</string>
+    <string name="label_previous_step">Previous Step</string>
+    <string name="label_next_step">Next Step</string>
 
     <string name="serving_size">Serves: %d</string>
     <string name="ingredient_quantity">%.2f %s</string>
