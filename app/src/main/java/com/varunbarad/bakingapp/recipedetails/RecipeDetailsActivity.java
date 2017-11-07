@@ -72,6 +72,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
     } else if (OnFragmentInteractionListener.TAG_LAUNCH_STEP_FROM_STEP.equals(tag)) {
       int stepNumber = Integer.parseInt(data);
       this.showStep(this.recipe, stepNumber, false);
+    } else if (OnFragmentInteractionListener.TAG_SET_TITLE.equals(tag)) {
+      this.setActionBarTitle(data);
     }
   }
   
@@ -130,6 +132,16 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
           .replace(R.id.container_recipeDetails_master, fragment)
           .addToBackStack(null)
           .commit();
+    }
+  }
+  
+  private void setActionBarTitle(String title) {
+    if (!Helper.isDualPane(this)) {
+      if (this.getSupportActionBar() != null) {
+        this
+            .getSupportActionBar()
+            .setTitle(title);
+      }
     }
   }
 }

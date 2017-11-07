@@ -75,6 +75,8 @@ public class IngredientsListFragment extends Fragment {
     this.ingredientsAdapter = new RecipeIngredientsAdapter(this.recipe);
     this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setAdapter(this.ingredientsAdapter);
     this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.addItemDecoration(new DividerItemDecoration(this.getContext(), GridLayoutManager.HORIZONTAL));
+  
+    this.setTitle(this.getContext().getString(R.string.label_ingredients));
     
     return this.dataBinding.getRoot();
   }
@@ -94,5 +96,14 @@ public class IngredientsListFragment extends Fragment {
   public void onDetach() {
     super.onDetach();
     fragmentInteractionListener = null;
+  }
+  
+  private void setTitle(String title) {
+    this
+        .fragmentInteractionListener
+        .onFragmentInteraction(
+            OnFragmentInteractionListener.TAG_SET_TITLE,
+            title
+        );
   }
 }

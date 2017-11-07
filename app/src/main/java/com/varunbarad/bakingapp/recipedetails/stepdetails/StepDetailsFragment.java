@@ -141,6 +141,8 @@ public class StepDetailsFragment extends Fragment {
             );
       }
     });
+  
+    this.setTitle(this.step.getShortDescription());
     
     return this.dataBinding.getRoot();
   }
@@ -200,5 +202,14 @@ public class StepDetailsFragment extends Fragment {
       this.player.release();
       this.player = null;
     }
+  }
+  
+  private void setTitle(String title) {
+    this
+        .fragmentInteractionListener
+        .onFragmentInteraction(
+            OnFragmentInteractionListener.TAG_SET_TITLE,
+            title
+        );
   }
 }

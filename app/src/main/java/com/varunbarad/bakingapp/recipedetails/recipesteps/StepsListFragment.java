@@ -73,6 +73,8 @@ public class StepsListFragment extends Fragment implements ListItemClickListener
     this.stepsAdapter = new RecipeStepsAdapter(this.recipe, this);
     this.dataBinding.recyclerViewRecipeDetailsStepsListSteps.setAdapter(this.stepsAdapter);
     this.dataBinding.recyclerViewRecipeDetailsStepsListSteps.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
+  
+    this.setTitle(this.recipe.getName());
     
     return this.dataBinding.getRoot();
   }
@@ -108,5 +110,14 @@ public class StepsListFragment extends Fragment implements ListItemClickListener
               String.valueOf(position - 1)
           );
     }
+  }
+  
+  private void setTitle(String title) {
+    this
+        .fragmentInteractionListener
+        .onFragmentInteraction(
+            OnFragmentInteractionListener.TAG_SET_TITLE,
+            title
+        );
   }
 }
