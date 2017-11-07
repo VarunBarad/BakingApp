@@ -1,19 +1,22 @@
 package com.varunbarad.bakingapp.model;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.varunbarad.bakingapp.util.Helper;
 
-import java.util.ArrayList;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Creator: Varun Barad
  * Date: 02-11-2017
  * Project: BakingApp
  */
-public final class Recipe {
+public class Recipe extends RealmObject {
   @Expose
   @SerializedName("id")
+  @PrimaryKey
   private int id;
   @Expose
   @SerializedName("name")
@@ -26,15 +29,15 @@ public final class Recipe {
   private String image;
   @Expose
   @SerializedName("ingredients")
-  private ArrayList<Ingredient> ingredients;
+  private RealmList<Ingredient> ingredients;
   @Expose
   @SerializedName("steps")
-  private ArrayList<RecipeStep> steps;
+  private RealmList<RecipeStep> steps;
   
   public Recipe() {
   }
   
-  public Recipe(int id, String name, int servings, String image, ArrayList<Ingredient> ingredients, ArrayList<RecipeStep> steps) {
+  public Recipe(int id, String name, int servings, String image, RealmList<Ingredient> ingredients, RealmList<RecipeStep> steps) {
     this.id = id;
     this.name = name;
     this.servings = servings;
@@ -59,16 +62,16 @@ public final class Recipe {
     return image;
   }
   
-  public ArrayList<Ingredient> getIngredients() {
+  public RealmList<Ingredient> getIngredients() {
     return ingredients;
   }
   
-  public ArrayList<RecipeStep> getSteps() {
+  public RealmList<RecipeStep> getSteps() {
     return steps;
   }
   
   @Override
   public String toString() {
-    return (new Gson().toJson(this));
+    return Helper.getGsonInstance().toJson(this);
   }
 }

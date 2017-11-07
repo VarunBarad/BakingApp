@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.FragmentRecipeDetailsIngredientsListBinding;
 import com.varunbarad.bakingapp.model.Recipe;
+import com.varunbarad.bakingapp.util.Helper;
 import com.varunbarad.bakingapp.util.eventlistener.OnFragmentInteractionListener;
 
 /**
@@ -61,7 +61,7 @@ public class IngredientsListFragment extends Fragment {
     
     if ((this.getArguments() != null) && (this.getArguments().containsKey(KEY_RECIPE))) {
       String recipeJson = getArguments().getString(KEY_RECIPE);
-      this.recipe = (new Gson()).fromJson(recipeJson, Recipe.class);
+      this.recipe = Helper.getGsonInstance().fromJson(recipeJson, Recipe.class);
     }
   }
   

@@ -1,15 +1,17 @@
 package com.varunbarad.bakingapp.model;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.varunbarad.bakingapp.util.Helper;
+
+import io.realm.RealmObject;
 
 /**
  * Creator: Varun Barad
  * Date: 02-11-2017
  * Project: BakingApp
  */
-public final class RecipeStep {
+public class RecipeStep extends RealmObject {
   @Expose
   @SerializedName("id")
   private int id;
@@ -59,6 +61,6 @@ public final class RecipeStep {
   
   @Override
   public String toString() {
-    return (new Gson().toJson(this));
+    return Helper.getGsonInstance().toJson(this);
   }
 }

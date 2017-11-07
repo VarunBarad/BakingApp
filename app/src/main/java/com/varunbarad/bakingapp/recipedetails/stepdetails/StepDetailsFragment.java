@@ -18,11 +18,11 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.gson.Gson;
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.FragmentRecipeDetailsStepDetailsBinding;
 import com.varunbarad.bakingapp.model.Recipe;
 import com.varunbarad.bakingapp.model.RecipeStep;
+import com.varunbarad.bakingapp.util.Helper;
 import com.varunbarad.bakingapp.util.eventlistener.OnFragmentInteractionListener;
 
 /**
@@ -77,7 +77,7 @@ public class StepDetailsFragment extends Fragment {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
       String recipeJson = getArguments().getString(KEY_RECIPE);
-      this.recipe = (new Gson()).fromJson(recipeJson, Recipe.class);
+      this.recipe = Helper.getGsonInstance().fromJson(recipeJson, Recipe.class);
       this.stepNumber = getArguments().getInt(KEY_STEP_NUMBER);
       this.step = this.recipe.getSteps().get(stepNumber);
     }
@@ -191,7 +191,7 @@ public class StepDetailsFragment extends Fragment {
     );
     
     this.player.prepare(mediaSource);
-    this.player.setPlayWhenReady(true);
+    this.player.setPlayWhenReady(false);
   }
   
   private void releasePlayer() {

@@ -9,4 +9,7 @@
 
     <string name="serving_size">Serves: %d</string>
     <string name="ingredient_quantity">%.2f %s</string>
+
+    <string name="PREFS_NAME" translatable="false">com.varunbarad.bakingapp</string>
+    <string name="PREFS_KEY_RECIPE_TIMESTAMP" translatable="false">recipe_timestamp</string>
 </resources>

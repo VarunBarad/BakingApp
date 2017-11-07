@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.ActivityRecipeDetailsBinding;
 import com.varunbarad.bakingapp.model.Recipe;
@@ -37,7 +36,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
     
     if ((this.getIntent().getExtras() != null) && (this.getIntent().getExtras().containsKey(KEY_RECIPE))) {
       String recipeJson = this.getIntent().getExtras().getString(KEY_RECIPE);
-      this.recipe = (new Gson()).fromJson(recipeJson, Recipe.class);
+      this.recipe = Helper.getGsonInstance().fromJson(recipeJson, Recipe.class);
       
       if (this.recipe == null) {
         throw new IllegalArgumentException("The activity must be started with a non-null recipe specified.");
