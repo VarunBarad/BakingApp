@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:minHeight="50dp"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textView_listItemWidgetConfigureRecipe_recipeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        tools:text="Nutella Pie"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="4dp"
+        android:layout_height="match_parent"/>
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/radioButton_listItemWidgetConfigureRecipe_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:minWidth="50dp"
+        tools:checked="true"/>
+</android.support.v7.widget.LinearLayoutCompat>

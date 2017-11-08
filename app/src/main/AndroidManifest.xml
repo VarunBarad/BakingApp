@@ -23,7 +23,30 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".recipedetails.RecipeDetailsActivity">
+
+        <activity
+            android:name=".recipedetails.RecipeDetailsActivity">
+        </activity>
+
+        <receiver
+            android:name=".widget.IngredientsListWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_ingredients_list"/>
+        </receiver>
+        <service
+            android:name=".widget.IngredientsListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <activity
+            android:name=".widget.configure.IngredientsListWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
         </activity>
     </application>
 
