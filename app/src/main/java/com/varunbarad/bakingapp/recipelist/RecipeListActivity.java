@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +32,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeListActivity extends AppCompatActivity implements ListItemClickListener {
+  @Nullable
+  private CountingIdlingResource idlingResource;
+  
   private ActivityRecipeListBinding dataBinding;
   
   private RecipeListAdapter recipeListAdapter;
@@ -42,6 +49,10 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
     super.onCreate(savedInstanceState);
     this.dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_list);
   
+    if (this.idlingResource != null) {
+      this.idlingResource.increment();
+    }
+    
     this.setSupportActionBar(this.dataBinding.toolbar);
     if (this.getSupportActionBar() != null) {
       this.getSupportActionBar().setTitle(R.string.app_name);
@@ -80,11 +91,19 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
           public void onResponse(Call<ArrayList<Recipe>> call, Response<ArrayList<Recipe>> response) {
             RecipeListActivity.this.showRecipes(response.body());
             RecipeListActivity.this.saveRecipes(response.body());
+  
+            if (RecipeListActivity.this.idlingResource != null) {
+              RecipeListActivity.this.idlingResource.decrement();
+            }
           }
           
           @Override
           public void onFailure(Call<ArrayList<Recipe>> call, Throwable t) {
             RecipeListActivity.this.showNetworkError();
+  
+            if (RecipeListActivity.this.idlingResource != null) {
+              RecipeListActivity.this.idlingResource.decrement();
+            }
           }
         });
   }
@@ -153,5 +172,14 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
         Helper.storeRecipesTimestamp(RecipeListActivity.this);
       }
     });
+  }
+  
+  @VisibleForTesting
+  @Nullable
+  public IdlingResource getIdlingResource() {
+    if (this.idlingResource == null) {
+      this.idlingResource = new CountingIdlingResource("Network-Idling-Resource");
+    }
+    return this.idlingResource;
   }
 }
