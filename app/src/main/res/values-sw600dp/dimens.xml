@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="textSize_card_primary">18sp</dimen>
-    <dimen name="textSize_card_secondary">12sp</dimen>
+    <dimen name="textSize_card_primary">24sp</dimen>
+    <dimen name="textSize_card_secondary">16sp</dimen>
 
     <dimen name="textSize_stepDetails_description">18sp</dimen>
 </resources>

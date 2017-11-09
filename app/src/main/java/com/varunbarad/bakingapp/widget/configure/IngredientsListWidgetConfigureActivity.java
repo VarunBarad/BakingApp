@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.varunbarad.bakingapp.R;
 import com.varunbarad.bakingapp.databinding.WidgetConfigureIngredientsListBinding;
@@ -109,22 +110,26 @@ public class IngredientsListWidgetConfigureActivity extends AppCompatActivity {
         final Context context = IngredientsListWidgetConfigureActivity.this;
         
         // When the button is clicked, store the recipe-id locally
-        int recipeId = IngredientsListWidgetConfigureActivity.this.recipeAdapter.getSelectedRecipe().getId();
-        IngredientsListWidgetConfigureActivity.saveRecipeIdToPref(
-            context,
-            appWidgetId,
-            recipeId
-        );
-        
-        // It is the responsibility of the configuration activity to update the app widget
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        IngredientsListWidget.updateAppWidget(context, appWidgetManager, appWidgetId);
-        
-        // Make sure we pass back the original appWidgetId
-        Intent resultValue = new Intent();
-        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        setResult(RESULT_OK, resultValue);
-        finish();
+        Recipe recipe = IngredientsListWidgetConfigureActivity.this.recipeAdapter.getSelectedRecipe();
+        if (recipe == null) {
+          Toast.makeText(context, R.string.message_no_recipe_selected, Toast.LENGTH_SHORT).show();
+        } else {
+          IngredientsListWidgetConfigureActivity.saveRecipeIdToPref(
+              context,
+              appWidgetId,
+              recipe.getId()
+          );
+    
+          // It is the responsibility of the configuration activity to update the app widget
+          AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+          IngredientsListWidget.updateAppWidget(context, appWidgetManager, appWidgetId);
+    
+          // Make sure we pass back the original appWidgetId
+          Intent resultValue = new Intent();
+          resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+          setResult(RESULT_OK, resultValue);
+          finish();
+        }
       }
     });
     

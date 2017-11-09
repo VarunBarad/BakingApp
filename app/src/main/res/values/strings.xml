@@ -2,6 +2,7 @@
     <string name="app_name">Baking App</string>
 
     <string name="message_no_recipes">Looks like there aren\'t any recipes available currently.</string>
+    <string name="message_no_recipe_selected">Please select a recipe to display ingredients in widget.</string>
 
     <string name="label_ingredients">Ingredients</string>
     <string name="label_ingredient">Ingredient</string>

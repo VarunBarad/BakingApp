@@ -68,9 +68,9 @@ public class IngredientsListFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     this.dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_details_ingredients_list, container, false);
-    
-    int numberOfColumns = this.getContext().getResources().getInteger(R.integer.column_count_ingredients_list);
-    this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setLayoutManager(new GridLayoutManager(this.getContext(), numberOfColumns, LinearLayoutManager.VERTICAL, false));
+  
+    this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
+    this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
   
     this.ingredientsAdapter = new RecipeIngredientsAdapter(this.recipe);
     this.dataBinding.recyclerViewRecipeDetailsIngredientsListIngredients.setAdapter(this.ingredientsAdapter);

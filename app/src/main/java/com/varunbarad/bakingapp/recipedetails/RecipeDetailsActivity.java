@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -60,6 +61,52 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
           .add(R.id.container_recipeDetails_master, stepsListFragment)
           .commit();
     }
+  
+    if (Helper.isDualPane(this)) {
+      Fragment masterFragment = this.getSupportFragmentManager().findFragmentById(R.id.container_recipeDetails_master);
+      if (masterFragment instanceof StepDetailsFragment) {
+        StepDetailsFragment stepDetailsFragment = (StepDetailsFragment) masterFragment;
+        int stepNumber = stepDetailsFragment.getStepNumber();
+      
+        this
+            .getSupportFragmentManager()
+            .popBackStack();
+      
+        if (stepNumber > -1) {
+          this.showStep(this.recipe, stepNumber, false);
+        }
+      } else if (masterFragment instanceof IngredientsListFragment) {
+        this
+            .getSupportFragmentManager()
+            .popBackStack();
+      
+        this.showIngredients(this.recipe);
+      }
+    } else {
+      Fragment detailFragment = this.getSupportFragmentManager().findFragmentById(R.id.container_recipeDetails_detail);
+      if (detailFragment != null) {
+        if (detailFragment instanceof IngredientsListFragment) {
+          this
+              .getSupportFragmentManager()
+              .beginTransaction()
+              .remove(detailFragment)
+              .commit();
+        
+          this.showIngredients(this.recipe);
+        } else if (detailFragment instanceof StepDetailsFragment) {
+          StepDetailsFragment stepDetailsFragment = (StepDetailsFragment) detailFragment;
+          int stepNumber = stepDetailsFragment.getStepNumber();
+        
+          this
+              .getSupportFragmentManager()
+              .beginTransaction()
+              .remove(detailFragment)
+              .commit();
+        
+          this.showStep(this.recipe, stepNumber);
+        }
+      }
+    }
   }
   
   @Override
@@ -94,7 +141,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
       this
           .getSupportFragmentManager()
           .beginTransaction()
-          .replace(R.id.container_recipeDetails_master, fragment) //ToDo: Change to detail container
+          .replace(R.id.container_recipeDetails_detail, fragment)
           .commit();
     } else {
       this
@@ -117,7 +164,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
       this
           .getSupportFragmentManager()
           .beginTransaction()
-          .replace(R.id.container_recipeDetails_master, fragment) //ToDo: Change to detail container
+          .replace(R.id.container_recipeDetails_detail, fragment)
           .commit();
     } else {
       if (!addToBackStack) {

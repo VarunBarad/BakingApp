@@ -212,4 +212,8 @@ public class StepDetailsFragment extends Fragment {
             title
         );
   }
+  
+  public int getStepNumber() {
+    return this.stepNumber;
+  }
 }
