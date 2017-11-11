@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeListActivity extends AppCompatActivity implements ListItemClickListener {
   @Nullable
-  private CountingIdlingResource idlingResource;
+  private volatile CountingIdlingResource idlingResource;
   
   private ActivityRecipeListBinding dataBinding;
   

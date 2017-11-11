@@ -49,8 +49,13 @@ dependencies {
     // Espresso Idling Resource for long-running UI operation tests
     implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
 
+    // JUnit Test Runner
     testImplementation 'junit:junit:4.12'
 
+    // Android specific test runner
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    // Core espresso library for UI tests
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // Espresso extension to test RecyclerViews
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
 }
