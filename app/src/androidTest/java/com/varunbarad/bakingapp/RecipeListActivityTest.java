@@ -1,6 +1,6 @@
 package com.varunbarad.bakingapp;
 
-import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -25,26 +25,19 @@ import static org.hamcrest.Matchers.greaterThan;
 @RunWith(AndroidJUnit4.class)
 public class RecipeListActivityTest {
   @Rule
-  public ActivityTestRule<RecipeListActivity> activityTestRule =
-      new ActivityTestRule<>(RecipeListActivity.class);
+  public ActivityTestRule<RecipeListActivity> activityTestRule = new ActivityTestRule<>(RecipeListActivity.class);
   
   private IdlingResource idlingResource;
   
   @Before
   public void registerIdlingResource() {
     this.idlingResource = this.activityTestRule.getActivity().getIdlingResource();
-    
-    Espresso.registerIdlingResources(this.idlingResource);
+  
+    IdlingRegistry.getInstance().register(this.idlingResource);
   }
   
   @Test
   public void loadRecipeListFromApiTest() {
-//    try {
-//      Thread.sleep(10000);
-//    } catch (InterruptedException e) {
-//      e.printStackTrace();
-//    }
-  
     onView(withId(R.id.recyclerView_recipeList_recipes))
         .check(new RecyclerViewItemCountAssertion(greaterThan(0)));
   }
@@ -52,7 +45,7 @@ public class RecipeListActivityTest {
   @After
   public void unregisterIdlingResource() {
     if (this.idlingResource != null) {
-      Espresso.unregisterIdlingResources(this.idlingResource);
+      IdlingRegistry.getInstance().unregister(this.idlingResource);
     }
   }
 }

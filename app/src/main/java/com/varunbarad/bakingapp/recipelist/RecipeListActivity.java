@@ -48,15 +48,13 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     this.dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_list);
-  
-    if (this.idlingResource != null) {
-      this.idlingResource.increment();
-    }
     
     this.setSupportActionBar(this.dataBinding.toolbar);
     if (this.getSupportActionBar() != null) {
       this.getSupportActionBar().setTitle(R.string.app_name);
     }
+  
+    this.getIdlingResource();
   
     if (Helper.isRecipesUpdateNeeded(this)) {
       if (Helper.isConnectedToInternet(this)) {
@@ -77,6 +75,10 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   }
   
   private void fetchRecipes() {
+    if (this.idlingResource != null) {
+      this.idlingResource.increment();
+    }
+    
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(RecipeApiHelper.baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
