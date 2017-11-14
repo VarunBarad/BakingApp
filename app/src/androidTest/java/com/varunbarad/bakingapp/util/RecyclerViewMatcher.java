@@ -1,4 +1,4 @@
-package com.varunbarad.bakingapp;
+package com.varunbarad.bakingapp.util;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

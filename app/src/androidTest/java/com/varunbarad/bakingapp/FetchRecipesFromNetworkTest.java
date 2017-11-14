@@ -6,6 +6,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.varunbarad.bakingapp.recipelist.RecipeListActivity;
+import com.varunbarad.bakingapp.util.RecyclerViewItemCountAssertion;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,7 @@ import static org.hamcrest.Matchers.greaterThan;
  * Project: BakingApp
  */
 @RunWith(AndroidJUnit4.class)
-public class RecipeListActivityTest {
+public class FetchRecipesFromNetworkTest {
   @Rule
   public ActivityTestRule<RecipeListActivity> activityTestRule = new ActivityTestRule<>(RecipeListActivity.class);
   
@@ -37,7 +38,7 @@ public class RecipeListActivityTest {
   }
   
   @Test
-  public void loadRecipeListFromApiTest() {
+  public void fetchRecipesFromNetworkTest() {
     onView(withId(R.id.recyclerView_recipeList_recipes))
         .check(new RecyclerViewItemCountAssertion(greaterThan(0)));
   }
