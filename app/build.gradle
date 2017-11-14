@@ -58,4 +58,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     // Espresso extension to test RecyclerViews
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
+    // Espresso extension to test Intents
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
 }
