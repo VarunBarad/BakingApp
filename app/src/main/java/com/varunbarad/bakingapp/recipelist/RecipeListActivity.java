@@ -127,8 +127,8 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
           .setVisibility(View.GONE);
     }
   
-    if (RecipeListActivity.this.idlingResource != null) {
-      RecipeListActivity.this.idlingResource.decrement();
+    if ((this.idlingResource != null) && (!this.idlingResource.isIdleNow())) {
+      this.idlingResource.decrement();
     }
   }
   
@@ -142,8 +142,8 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
     this.dataBinding.contentActivityRecipeList.placeHolderNoRecipes
         .setVisibility(View.GONE);
   
-    if (RecipeListActivity.this.idlingResource != null) {
-      RecipeListActivity.this.idlingResource.decrement();
+    if ((this.idlingResource != null) && (!this.idlingResource.isIdleNow())) {
+      this.idlingResource.decrement();
     }
   }
   
@@ -157,8 +157,8 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
     this.dataBinding.contentActivityRecipeList.placeHolderNoRecipes
         .setVisibility(View.VISIBLE);
   
-    if (RecipeListActivity.this.idlingResource != null) {
-      RecipeListActivity.this.idlingResource.decrement();
+    if ((this.idlingResource != null) && (!this.idlingResource.isIdleNow())) {
+      this.idlingResource.decrement();
     }
   }
   
