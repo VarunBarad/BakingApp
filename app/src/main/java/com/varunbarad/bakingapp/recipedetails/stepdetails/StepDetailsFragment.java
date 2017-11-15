@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,26 @@ public class StepDetailsFragment extends Fragment {
     );
     
     if ((this.step.getVideoUrl() != null) && (!this.step.getVideoUrl().isEmpty())) {
+      if (this.makeVideoFullScreen()) {
+        this.dataBinding
+            .playerViewStepDetailsVideo
+            .setLayoutParams(new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+            ));
+    
+        this.dataBinding
+            .textViewStepDetailsDescription
+            .setVisibility(View.GONE);
+    
+        this.dataBinding
+            .buttonStepDetailsPreviousStep
+            .setVisibility(View.GONE);
+    
+        this.dataBinding
+            .buttonStepDetailsNextStep
+            .setVisibility(View.GONE);
+      }
       this.initializePlayer();
     } else {
       this.dataBinding
@@ -215,5 +236,9 @@ public class StepDetailsFragment extends Fragment {
   
   public int getStepNumber() {
     return this.stepNumber;
+  }
+  
+  private boolean makeVideoFullScreen() {
+    return ((!Helper.isDualPane(this.getContext())) && Helper.isLandscape(this.getContext()));
   }
 }
