@@ -25,9 +25,14 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnFragme
   private Recipe recipe;
   
   public static void start(Context context, Recipe recipe) {
+    context.startActivity(RecipeDetailsActivity.getStarterIntent(context, recipe));
+  }
+  
+  public static Intent getStarterIntent(Context context, Recipe recipe) {
     Intent starter = new Intent(context, RecipeDetailsActivity.class);
     starter.putExtra(KEY_RECIPE, recipe.toString());
-    context.startActivity(starter);
+    
+    return starter;
   }
   
   @Override
