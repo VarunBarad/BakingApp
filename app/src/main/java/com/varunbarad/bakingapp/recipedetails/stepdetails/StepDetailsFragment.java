@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,10 +38,12 @@ import com.varunbarad.bakingapp.util.eventlistener.OnFragmentInteractionListener
 public class StepDetailsFragment extends Fragment {
   private static final String KEY_RECIPE = "recipe";
   private static final String KEY_STEP_NUMBER = "step_number";
+  private static final String KEY_PLAYER_POSITION = "player_position";
   
   private Recipe recipe;
   private int stepNumber;
   private RecipeStep step;
+  private long playerPosition = 0;
   
   private OnFragmentInteractionListener fragmentInteractionListener;
   
@@ -74,6 +77,17 @@ public class StepDetailsFragment extends Fragment {
   }
   
   @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    if (context instanceof OnFragmentInteractionListener) {
+      fragmentInteractionListener = (OnFragmentInteractionListener) context;
+    } else {
+      throw new RuntimeException(context.toString()
+          + " must implement OnFragmentInteractionListener");
+    }
+  }
+  
+  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
@@ -93,6 +107,22 @@ public class StepDetailsFragment extends Fragment {
         false
     );
     
+    return this.dataBinding.getRoot();
+  }
+  
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+  
+    if (savedInstanceState != null) {
+      this.playerPosition = savedInstanceState.getLong(KEY_PLAYER_POSITION, 0);
+    }
+  }
+  
+  @Override
+  public void onResume() {
+    super.onResume();
+  
     if ((this.step.getVideoUrl() != null) && (!this.step.getVideoUrl().isEmpty())) {
       if (this.makeVideoFullScreen()) {
         this.dataBinding
@@ -101,42 +131,43 @@ public class StepDetailsFragment extends Fragment {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
             ));
-    
+      
         this.dataBinding
             .textViewStepDetailsDescription
             .setVisibility(View.GONE);
-    
+      
         this.dataBinding
             .buttonStepDetailsPreviousStep
             .setVisibility(View.GONE);
-    
+      
         this.dataBinding
             .buttonStepDetailsNextStep
             .setVisibility(View.GONE);
       }
+    
       this.initializePlayer();
     } else {
       this.dataBinding
           .playerViewStepDetailsVideo
           .setVisibility(View.GONE);
     }
-    
+  
     this.dataBinding
         .textViewStepDetailsDescription
         .setText(this.step.getDescription());
-    
+  
     if (this.stepNumber == 0) {
       this.dataBinding
           .buttonStepDetailsPreviousStep
           .setVisibility(View.GONE);
     }
-    
+  
     if (this.stepNumber == (this.recipe.getSteps().size() - 1)) {
       this.dataBinding
           .buttonStepDetailsNextStep
           .setVisibility(View.GONE);
     }
-    
+  
     this.dataBinding.buttonStepDetailsPreviousStep.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -149,7 +180,7 @@ public class StepDetailsFragment extends Fragment {
             );
       }
     });
-    
+  
     this.dataBinding.buttonStepDetailsNextStep.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -164,24 +195,20 @@ public class StepDetailsFragment extends Fragment {
     });
   
     this.setTitle(this.step.getShortDescription());
-    
-    return this.dataBinding.getRoot();
   }
   
   @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    if (context instanceof OnFragmentInteractionListener) {
-      fragmentInteractionListener = (OnFragmentInteractionListener) context;
-    } else {
-      throw new RuntimeException(context.toString()
-          + " must implement OnFragmentInteractionListener");
-    }
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    
+    outState.putLong(KEY_PLAYER_POSITION, this.playerPosition);
   }
   
   @Override
   public void onPause() {
     super.onPause();
+    this.playerPosition = this.player.getCurrentPosition();
+    
     this.releasePlayer();
   }
   
@@ -212,8 +239,9 @@ public class StepDetailsFragment extends Fragment {
         null,
         null
     );
-    
-    this.player.prepare(mediaSource);
+  
+    this.player.prepare(mediaSource, false, true);
+    this.player.seekTo(this.playerPosition);
     this.player.setPlayWhenReady(false);
   }
   
