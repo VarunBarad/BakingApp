@@ -55,16 +55,6 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
     }
   
     this.getIdlingResource();
-  
-    if (Helper.isRecipesUpdateNeeded(this)) {
-      if (Helper.isConnectedToInternet(this)) {
-        this.fetchRecipes();
-      } else {
-        this.showNetworkError();
-      }
-    } else {
-      this.showRecipes(this.retrieveRecipes());
-    }
   }
   
   @Override
@@ -75,6 +65,16 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
   
     if (this.idlingResource != null) {
       this.idlingResource.increment();
+    }
+  
+    if (Helper.isRecipesUpdateNeeded(this)) {
+      if (Helper.isConnectedToInternet(this)) {
+        this.fetchRecipes();
+      } else {
+        this.showNetworkError();
+      }
+    } else {
+      this.showRecipes(this.retrieveRecipes());
     }
   }
   
@@ -127,7 +127,7 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
           .setVisibility(View.GONE);
     }
   
-    if ((this.idlingResource != null) && (!this.idlingResource.isIdleNow())) {
+    if (this.idlingResource != null) {
       this.idlingResource.decrement();
     }
   }
@@ -142,7 +142,7 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
     this.dataBinding.contentActivityRecipeList.placeHolderNoRecipes
         .setVisibility(View.GONE);
   
-    if ((this.idlingResource != null) && (!this.idlingResource.isIdleNow())) {
+    if (this.idlingResource != null) {
       this.idlingResource.decrement();
     }
   }
@@ -157,7 +157,7 @@ public class RecipeListActivity extends AppCompatActivity implements ListItemCli
     this.dataBinding.contentActivityRecipeList.placeHolderNoRecipes
         .setVisibility(View.VISIBLE);
   
-    if ((this.idlingResource != null) && (!this.idlingResource.isIdleNow())) {
+    if (this.idlingResource != null) {
       this.idlingResource.decrement();
     }
   }
