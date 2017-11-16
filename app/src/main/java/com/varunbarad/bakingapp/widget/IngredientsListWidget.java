@@ -19,12 +19,15 @@ public class IngredientsListWidget extends AppWidgetProvider {
   public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
     
     Recipe recipe = IngredientsListWidgetConfigureActivity.loadRecipeFromPref(context, appWidgetId);
+  
+    RemoteViews views;
     if (recipe == null) {
-      throw new IllegalStateException("Recipe must not be null");
+      // Construct the RemoteViews object to display placeholder
+      views = IngredientsListWidget.getPlaceholderRemoteView(context);
+    } else {
+      // Construct the RemoteViews object to display ingredients
+      views = IngredientsListWidget.getIngredientsListRemoteView(context, recipe.getId());
     }
-    
-    // Construct the RemoteViews object
-    RemoteViews views = IngredientsListWidget.getIngredientsListRemoteView(context, recipe.getId());
     
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -36,6 +39,12 @@ public class IngredientsListWidget extends AppWidgetProvider {
     Intent intent = new Intent(context, IngredientsListWidgetService.class);
     intent.putExtra(Intent.EXTRA_TEXT, recipeId);
     views.setRemoteAdapter(R.id.listView_widget_ingredients, intent);
+    
+    return views;
+  }
+  
+  private static RemoteViews getPlaceholderRemoteView(Context context) {
+    RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_ingredients_list_placeholder);
     
     return views;
   }
